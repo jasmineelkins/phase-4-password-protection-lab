@@ -2,15 +2,14 @@ class UsersController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :render_invalid
 
   def create
-    # create new User
+    # create new User & save hashed password to db
     user = User.create!(user_params)
 
-    session[:user_id] = user.id
-    render json: user, status: :created
-
-    # save hashed password to db
     # save user's ID in the session hash
+    session[:user_id] = user.id
+
     # return user object json
+    render json: user, status: :created
   end
 
   def show
